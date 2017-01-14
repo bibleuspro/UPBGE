@@ -72,12 +72,10 @@ typedef struct BlendFileData {
 } BlendFileData;
 
 BlendFileData *BLO_read_from_file(const char *filepath, struct ReportList *reports);
-BlendFileData *BLO_read_from_memory(const void *mem, int memsize, struct ReportList *reports);
+BlendFileData *BLO_read_from_memory(const void *mem, int memsize, struct ReportList *reports, char *localPath);
 BlendFileData *BLO_read_from_memfile(
         struct Main *oldmain, const char *filename, struct MemFile *memfile,
         struct ReportList *reports);
-
-BlendFileData*	BLO_read_from_memoryA(const void *mem, int memsize, struct ReportList *reports, char* localPath);
 
 void BLO_blendfiledata_free(BlendFileData *bfd);
 
