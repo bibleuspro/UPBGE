@@ -885,7 +885,7 @@ int main(
 			case 'K':
 			{
 				//Find and set keys
-				SpinEncryption_FindAndSet_Key(argv, i, hexKey);
+				hexKey = SpinEncryption_FindAndSet_Key(argv, i);
 				i++;
 				break;
 			}
