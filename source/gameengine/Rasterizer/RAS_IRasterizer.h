@@ -422,6 +422,7 @@ private:
 
 	StorageAttribs m_storageAttribs;
 
+	bool m_invertFrontFace;
 	bool m_last_frontface;
 
 	OverrideShaderType m_overrideShader;
@@ -799,6 +800,8 @@ public:
 
 	void SetAlphaBlend(int alphablend);
 	void SetFrontFace(bool ccw);
+
+	void SetInvertFrontFace(bool invert);
 
 	void SetAnisotropicFiltering(short level);
 	short GetAnisotropicFiltering();

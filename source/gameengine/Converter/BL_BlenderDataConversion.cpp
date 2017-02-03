@@ -1849,9 +1849,16 @@ void BL_ConvertBlenderObjects(struct Main* maggie,
 
 				for (unsigned short k = 0; k < RAS_Texture::MaxUnits; ++k) {
 					RAS_Texture *tex = polymat->GetTexture(k);
+					if (!tex || !tex->Ok()) {
+						continue;
+					}
 
-					if (tex && tex->Ok() && tex->IsCubeMap() && tex->GetTex()->env->stype == ENV_REALT) {
-						EnvMap *env = tex->GetTex()->env;
+					EnvMap *env = tex->GetTex()->env;
+					if (!env || env->stype != ENV_REALT) {
+						continue;
+					}
+
+					if (tex->IsCubeMap()) {
 						KX_GameObject *viewpoint = gameobj;
 
 						if (env->object) {
@@ -1863,14 +1870,12 @@ void BL_ConvertBlenderObjects(struct Main* maggie,
 
 						kxscene->GetCubeMapManager()->AddCubeMap(tex, viewpoint);
 					}
-					if (tex && tex->Ok() && ((tex->GetTex()->planarflag == TEX_PLANAR_REFLECTION) ||
-						(tex->GetTex()->planarflag == TEX_PLANAR_REFRACTION))) {
+					else {
+// 						EnvMap *env = tex->GetTex()->env;
 						KX_GameObject *viewpoint = gameobj;
 						// Prevent two sided rendering on mirror's material to avoid artifacts
 						polymat->SetRasMode(0);
-						int width = GPU_texture_width(tex->GetGPUTexture());
-						int height = GPU_texture_height(tex->GetGPUTexture());
-						kxscene->GetPlanarManager()->AddPlanar(tex, gameobj, polymat, tex->GetTex()->planarflag, width, height);
+						kxscene->GetPlanarManager()->AddPlanar(tex, gameobj, polymat);
 					}
 				}
 			}
